@@ -8,8 +8,39 @@ import mark from "./images/marktwain.jpg";
 import william from "./images/williamshakespeare.jpg";
 import AuthorQuiz from "./AuthorQuiz";
 import * as serviceWorker from "./serviceWorker";
+import {shuffle, sample} from 'underscore';
 
 const authors = [
+  {
+    name: "Charles Dickens",
+    imageUrl: charles,
+    imageSource: "Wikimedia Commons",
+    books: [
+      "David Coperfield",
+      "A tale of cities",
+      "Meaning of life"
+    ]
+  },
+  {
+    name: "J. Krowling",
+    imageUrl: krowling,
+    imageSource: "Wikimedia Commons",
+    books: [
+      "The shinning",
+      "IT",
+      "wall of lies"
+    ]
+  },
+  {
+    name: "Joseph Conrad",
+    imageUrl: joseph,
+    imageSource: "Wikimedia Commons",
+    books: [
+      "Heart of Darkness",
+      "Sean",
+      "Riverdale"
+    ]
+  },
   {
     name: "Mark Twain",
     imageUrl: mark,
@@ -19,14 +50,35 @@ const authors = [
       "Life of the Mississippi",
       "Roughing it"
     ]
+  },
+  {
+    name: "William Shakespeare",
+    imageUrl: william,
+    imageSource: "Wikimedia Commons",
+    books: [
+      "Hamlet",
+      "Macbeth",
+      "Romeo and Juliet"
+    ]
   }
 ];
 
+function getTurnData(authors) {
+  const allBooks = authors.reduce(function (p, c, i){
+    return p.concat(c.books);
+  }, []);
+  const fourRandomBooks = shuffle(allBooks).slice(0,4);
+  const answer = sample(fourRandomBooks);
+
+  return {
+    books: fourRandomBooks,
+    author: authors.find((author) => 
+    author.books.some((title) =>
+     title == answer))
+  }
+}
 const state = {
-    turnData : {
-        author: authors[0],
-        books: authors[0].books
-    }
+    turnData : getTurnData(authors)
 };
 
 ReactDOM.render(<AuthorQuiz {...state}/>, document.getElementById("root"));
