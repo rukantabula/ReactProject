@@ -14,28 +14,52 @@ function Hero() {
   );
 }
 
-function Turn() {
-  return (<div/>)
+function Book({title}){
+  return(<div className="answer">
+  <h4>{title}</h4>
+  </div>
+  );
+}
+
+function Turn({author,books}) {
+  return (
+    <div className="row turn" style={{ background: "white" }}>
+      <div className="col-4 offset 1" >
+        <img src={author.imageUrl} className="authorimage" alt="Author" />
+      </div>
+      <div className="col-6">
+      {books.map((title) => <Book title={title} key={title}/>)}
+      </div>
+    </div>
+  );
 }
 function Continue() {
-  return (<div/>)
+  return <div />;
 }
 
 function Footer() {
-  return (<div/>)
+  return (
+    <div id="footer" className="row">
+      <div className="col-12">
+        <p className="text-muted credit">
+          All imagea are from <a href="www.google.com"> Google.com </a>and are
+          in public domain
+        </p>
+      </div>
+    </div>
+  );
 }
 
-class AuthorQuiz extends Component {
-  render() {
+function AuthorQuiz({turnData}){
     return (
       <div classname="container-fluid">
         <Hero />
-        <Turn />
+        <Turn {...turnData}/>
         <Continue />
         <Footer />
       </div>
     );
   }
-}
+
 
 export default AuthorQuiz;
